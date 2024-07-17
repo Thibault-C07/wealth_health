@@ -18,12 +18,12 @@ const Form = (props) => {
             required
           />
         ) : (
-          <React.Fragment>
+          <>
             <Select id={props.id} options={props.selectOptions} />
             <span className="form_error_message">
               Please fill out this field.
             </span>
-          </React.Fragment>
+          </>
         )}
       </div>
     </div>

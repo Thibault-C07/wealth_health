@@ -1,11 +1,11 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Form from '../components/Form.jsx'
 import FormButton from '../components/FormButton'
 import { states } from '../datas/states.js'
 import { departments } from '../datas/departments.js'
 import Modal from 'react-modal'
 import '../styles/Home.css'
+import DatetimePicker from 'datetimepicker-thibault'
 
 const Home = () => {
   const [employeeData, setEmployeeData] = useState({
@@ -22,16 +22,21 @@ const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false) // Local state for modal visibility
 
   const handleInputChange = (event) => {
-    setEmployeeData({
-      ...employeeData,
-      [event.target.id]: event.target.value,
-    })
+    const { id, value } = event.target
+    setEmployeeData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }))
+  }
+
+  const handleDateChange = (id, date) => {
+    setEmployeeData((prevData) => ({
+      ...prevData,
+      [id]: date,
+    }))
   }
 
   const handleSave = () => {
-    // Handle form submission logic here (e.g., send data to server)
-    console.log('Employee data:', employeeData) // Example of accessing data
-
     // Simulate successful submission and open modal
     setIsModalOpen(true)
   }
@@ -59,22 +64,30 @@ const Home = () => {
             id="lastName"
             labelTitle="Last Name"
             inputType="text"
+            onChange={handleInputChange}
           />
         </div>
 
         <div className="create_form_container">
-          <Form
-            type="input"
-            id="dateOfBirth"
-            labelTitle="Date of Birth"
-            inputType="date"
-          />
-          <Form
-            type="input"
-            id="startDate"
-            labelTitle="Start Date"
-            inputType="date"
-          />
+          <div className="form_group">
+            <label className="datetime" htmlFor="dateOfBirth">
+              Date of Birth
+            </label>
+            <DatetimePicker
+              value={employeeData.dateOfBirth}
+              onChange={(date) => handleDateChange('dateOfBirth', date)}
+            />
+          </div>
+
+          <div className="form_group">
+            <label className="datetime" htmlFor="startDate">
+              Start Date
+            </label>
+            <DatetimePicker
+              value={employeeData.startDate}
+              onChange={(date) => handleDateChange('startDate', date)}
+            />
+          </div>
         </div>
 
         <fieldset className="create_form_fieldset">
@@ -86,8 +99,15 @@ const Home = () => {
               id="street"
               labelTitle="Street"
               inputType="text"
+              onChange={handleInputChange}
             />
-            <Form type="input" id="city" labelTitle="City" inputType="text" />
+            <Form
+              type="input"
+              id="city"
+              labelTitle="City"
+              inputType="text"
+              onChange={handleInputChange}
+            />
           </div>
 
           <div className="create_form_container create_form_container--bottom">
@@ -97,12 +117,14 @@ const Home = () => {
               labelTitle="State"
               selectOptions={states}
               selectAbbreviations={true}
+              onChange={handleInputChange}
             />
             <Form
               type="input"
               id="zipCode"
               labelTitle="ZIP Code"
               inputType="text"
+              onChange={handleInputChange}
             />
           </div>
         </fieldset>
@@ -113,6 +135,7 @@ const Home = () => {
           labelTitle="Department"
           selectOptions={departments}
           selectAbbreviations={false}
+          onChange={handleInputChange}
         />
       </form>
 
