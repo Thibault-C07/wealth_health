@@ -51,3 +51,18 @@
   justify-content: center;
   align-items: center;
 }
+
+.form_group {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+label,
+.datetime {
+  margin-right: 15px;
+}
+
+.datetime-picker {
+  width: 500px;
+}
