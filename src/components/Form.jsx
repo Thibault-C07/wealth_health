@@ -3,36 +3,36 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import '../styles/Form.css'
 
-const Form = (props) => {
+const Form = ({ type, id, labelTitle, inputType, selectOptions, onChange }) => {
   const handleSelectChange = (selectedOption) => {
-    props.onChange({ target: { id: props.id, value: selectedOption.value } })
+    onChange({ target: { id, value: selectedOption.value } })
   }
 
   return (
     <div className="form_item">
-      <label className="form_label" htmlFor={props.id}>
-        {props.labelTitle}
+      <label className="form_label" htmlFor={id}>
+        {labelTitle}
       </label>
       <div className="form_input_message_wrapper">
-        {props.type === 'input' ? (
+        {type === 'input' ? (
           <input
             className="form_input"
-            type={props.inputType}
-            id={props.id}
+            type={inputType}
+            id={id}
             required
-            onChange={props.onChange}
+            onChange={onChange}
           />
         ) : (
-          <>
-            <Select
-              id={props.id}
-              options={props.selectOptions}
-              onChange={handleSelectChange}
-            />
-            <span className="form_error_message">
-              Please fill out this field.
-            </span>
-          </>
+          <Select
+            id={id}
+            options={selectOptions}
+            onChange={handleSelectChange}
+          />
+        )}
+        {type !== 'input' && (
+          <span className="form_error_message">
+            Please fill out this field.
+          </span>
         )}
       </div>
     </div>
@@ -45,7 +45,6 @@ Form.propTypes = {
   labelTitle: PropTypes.string.isRequired,
   inputType: PropTypes.string,
   selectOptions: PropTypes.array,
-  selectAbbreviations: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 }
 
