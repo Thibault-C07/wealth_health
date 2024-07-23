@@ -4,6 +4,10 @@ import Select from 'react-select'
 import '../styles/Form.css'
 
 const Form = (props) => {
+  const handleSelectChange = (selectedOption) => {
+    props.onChange({ target: { id: props.id, value: selectedOption.value } })
+  }
+
   return (
     <div className="form_item">
       <label className="form_label" htmlFor={props.id}>
@@ -16,10 +20,15 @@ const Form = (props) => {
             type={props.inputType}
             id={props.id}
             required
+            onChange={props.onChange}
           />
         ) : (
           <>
-            <Select id={props.id} options={props.selectOptions} />
+            <Select
+              id={props.id}
+              options={props.selectOptions}
+              onChange={handleSelectChange}
+            />
             <span className="form_error_message">
               Please fill out this field.
             </span>
@@ -37,6 +46,7 @@ Form.propTypes = {
   inputType: PropTypes.string,
   selectOptions: PropTypes.array,
   selectAbbreviations: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default Form

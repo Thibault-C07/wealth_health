@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Form from '../components/Form.jsx'
 import FormButton from '../components/FormButton'
 import { states } from '../datas/states.js'
@@ -6,8 +6,21 @@ import { departments } from '../datas/departments.js'
 import Modal from 'react-modal'
 import '../styles/Home.css'
 import DatetimePicker from 'datetimepicker-thibault'
+import { EmployeeContext } from '../components/EmployeeContext'
+
+const stateOptions = states.map((state) => ({
+  value: state.abbreviation,
+  label: state.name,
+}))
+
+const departmentOptions = departments.map((department) => ({
+  value: department.name,
+  label: department.name,
+}))
 
 const Home = () => {
+  const { addEmployee } = useContext(EmployeeContext)
+
   const [employeeData, setEmployeeData] = useState({
     firstName: '',
     lastName: '',
@@ -18,8 +31,9 @@ const Home = () => {
     state: '',
     zipCode: '',
     department: '',
-  }) // Local state for employee data
-  const [isModalOpen, setIsModalOpen] = useState(false) // Local state for modal visibility
+  })
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleInputChange = (event) => {
     const { id, value } = event.target
@@ -36,8 +50,9 @@ const Home = () => {
     }))
   }
 
-  const handleSave = () => {
-    // Simulate successful submission and open modal
+  const handleSave = (event) => {
+    event.preventDefault()
+    addEmployee(employeeData)
     setIsModalOpen(true)
   }
 
@@ -115,9 +130,13 @@ const Home = () => {
               type="select"
               id="state"
               labelTitle="State"
-              selectOptions={states}
+              selectOptions={stateOptions}
               selectAbbreviations={true}
-              onChange={handleInputChange}
+              onChange={(selectedOption) =>
+                handleInputChange({
+                  target: { id: 'state', value: selectedOption.value },
+                })
+              }
             />
             <Form
               type="input"
@@ -133,15 +152,18 @@ const Home = () => {
           type="select"
           id="department"
           labelTitle="Department"
-          selectOptions={departments}
+          selectOptions={departmentOptions}
           selectAbbreviations={false}
-          onChange={handleInputChange}
+          onChange={(selectedOption) =>
+            handleInputChange({
+              target: { id: 'department', value: selectedOption.value },
+            })
+          }
         />
       </form>
 
-      <FormButton title="Save" onClick={handleSave} />
+      <FormButton title="Save" onSubmit={handleSave} disableAfterClick={true} />
 
-      {/* CONFIRMATION MODAL */}
       <Modal
         className="modal"
         isOpen={isModalOpen}
