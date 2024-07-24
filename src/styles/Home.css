@@ -2,11 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-weight: normal;
 }
 
 .create_title {
   color: #73842c;
   margin-bottom: 30px;
+  font-weight: normal;
 }
 
 .create_form {
@@ -31,11 +33,11 @@
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 20px;
+  border: 1px solid grey;
 }
 
 .create_form_fieldset_legend {
   font-style: italic;
-  font-weight: 500;
 }
 
 .modal {

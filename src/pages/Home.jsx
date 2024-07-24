@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Form from '../components/Form.jsx'
 import FormButton from '../components/FormButton'
 import { states } from '../datas/states.js'
@@ -6,7 +7,7 @@ import { departments } from '../datas/departments.js'
 import Modal from 'react-modal'
 import '../styles/Home.css'
 import DatetimePicker from 'datetimepicker-thibault'
-import { EmployeeContext } from '../components/EmployeeContext'
+import { addEmployee } from '../redux/employeeSlice'
 
 const stateOptions = states.map((state) => ({
   value: state.abbreviation,
@@ -19,7 +20,7 @@ const departmentOptions = departments.map((department) => ({
 }))
 
 const Home = () => {
-  const { addEmployee } = useContext(EmployeeContext)
+  const dispatch = useDispatch()
 
   const [employeeData, setEmployeeData] = useState({
     firstName: '',
@@ -52,7 +53,7 @@ const Home = () => {
 
   const handleSave = (event) => {
     event.preventDefault()
-    addEmployee(employeeData)
+    dispatch(addEmployee(employeeData))
     setIsModalOpen(true)
   }
 

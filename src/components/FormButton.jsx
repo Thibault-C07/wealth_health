@@ -3,13 +3,13 @@ import propTypes from 'prop-types'
 import '../styles/FormButton.css'
 
 const FormButton = (props) => {
-  const [isClicked, setIsClicked] = useState(false) // Track button click state
+  const [isClicked, setIsClicked] = useState(false)
 
   const handleClick = (e) => {
     e.preventDefault()
-    setIsClicked(true) // Update click state
+    setIsClicked(true)
     if (props.onSubmit) {
-      props.onSubmit(e) // Call provided onSubmit function if available
+      props.onSubmit(e)
     } else if (props.onClick) {
       props.onClick(e)
     }
@@ -18,7 +18,7 @@ const FormButton = (props) => {
   return (
     <button
       className="form_button"
-      disabled={props.disableAfterClick ? isClicked : false} // Disable button after click to prevent multiple submissions
+      disabled={props.disableAfterClick ? isClicked : false}
       onClick={handleClick}
     >
       <h3 className="form_button_text">{props.title}</h3>
@@ -28,7 +28,7 @@ const FormButton = (props) => {
 
 FormButton.propTypes = {
   title: propTypes.string.isRequired,
-  onSubmit: propTypes.func, // Optional prop for custom submit behavior
+  onSubmit: propTypes.func,
   onClick: propTypes.func,
   disableAfterClick: propTypes.bool,
 }
